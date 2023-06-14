@@ -21,7 +21,6 @@ function App() {
         setOneVh();
     }
     window.addEventListener('resize',onResize);
-    
 
     const handleSetInit = ()=>{
       let todoInit = []
@@ -33,18 +32,11 @@ function App() {
     setTodoList(todo)
     
   },[])
-
-  // const handleTodoAdd = (item) => {  
-  //   let todo = JSON.parse(window.localStorage.getItem("todolist"));
-  //   todo.push({tf:true,text:item})
-  //   window.localStorage.setItem("todolist",JSON.stringify(todo)); 
-  //   setTodoList(todo)
-  //   refTodoItem.current.value = ''
-  // }
+ 
 
   const handleTodoAdd = (item) => {  
     let todo = JSON.parse(window.localStorage.getItem("todolist"));
-    todo.push({tf:true,text:item})
+    todo.push({tf:false,id:todoList.length,text:item})
     window.localStorage.setItem("todolist",JSON.stringify(todo)); 
     setTodoList(todo)
     refTodoItem.current.value = ''
@@ -54,6 +46,7 @@ function App() {
   const handleTodoCheck = (tf,idx) => {
      
     let todo = JSON.parse(window.localStorage.getItem("todolist"));
+
     if(tf){
       todo[idx].tf = false
     }else{
@@ -64,11 +57,10 @@ function App() {
     setTodoList(todo) 
   }
   
-  const handleTodoDelete = (idx) => {
-    let todo = JSON.parse(window.localStorage.getItem("todolist"));
-    todo[idx].
-
-    window.localStorage.setItem("todolist",JSON.stringify(todo));  
+  const handleTodoDelete = (id) => {
+    let todo = JSON.parse(window.localStorage.getItem("todolist")); 
+    todo = todo.filter((val) => val.id !== id);
+    window.localStorage.setItem("todolist",JSON.stringify(todo));
     setTodoList(todo) 
   }
 
@@ -94,7 +86,7 @@ function App() {
               </div>
               <span>{val.text}</span>
             </div>
-            <div className='deleteBox' onClick={()=>handleTodoDelete(idx)}>x</div>
+            <div className='deleteBox' onClick={()=>handleTodoDelete(val.id)}>x</div>
           </div>
           )}
          
