@@ -14,11 +14,13 @@ function App() {
   setOneVh();
 
   useEffect(()=>{
+
     setOneVh();
 
     function onResize(){ 
         setOneVh();
     }
+    
     window.addEventListener('resize',onResize);
 
     const handleSetInit = ()=>{
