@@ -45,7 +45,7 @@ function App() {
 
 
   const handleTodoCheck = (tf,idx) => {
-     
+    
     let todo = JSON.parse(window.localStorage.getItem("todolist"));
 
     if(tf){
@@ -71,7 +71,7 @@ function App() {
     <div className="mainLayout">
       <div className='todoLayout'>
         <div className='todoTitle'>
-          To do List
+          To Do List
         </div>
         <div className='todoAdd'>
           <input type='text' placeholder="할 일을 입력하세요" ref={refTodoItem}/>
