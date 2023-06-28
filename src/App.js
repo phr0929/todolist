@@ -5,6 +5,7 @@ function App() {
 
   const [todoList,setTodoList] = useState([])
   const refTodoItem = useRef()
+  const [sequance, setSequance] = useState(null)
 
   const setOneVh = () => {
     const vh = window.innerHeight * 0.01;
@@ -23,43 +24,58 @@ function App() {
     
     window.addEventListener('resize',onResize);
 
-    const handleSetInit = ()=>{
-      let todoInit = []
-      window.localStorage.setItem("todolist",JSON.stringify(todoInit))
-      return JSON.stringify([])
+
+    let sequance = window.localStorage.getItem("sequance")
+    if(sequance === null){
+      window.localStorage.setItem("sequance","0")
+      sequance = 0
     }
-  
-    let todo = JSON.parse(window.localStorage.getItem("todolist")||handleSetInit());
-    setTodoList(todo)
+
     
-  },[])
+
+    const handleSetInit = ()=>{
+      window.localStorage.setItem("todolist","[]")
+      return "[]"
+    }
+    let todo = JSON.parse(window.localStorage.getItem("todolist")??handleSetInit());
+    setTodoList(todo)
+    setSequance(Number(sequance))
  
+  },[])
+
+  useEffect(()=>{
+    console.log(todoList)
+  },[todoList])
 
   const handleTodoAdd = (item) => {  
-    let todo = JSON.parse(window.localStorage.getItem("todolist"));
-    todo.push({tf:false,id:todoList.length,text:item})
+
+    if(sequance === null){
+      return
+    }  
+    let todo = [...todoList]
+
+
+    todo.push({tf:false,id:sequance+1,text:item})
     window.localStorage.setItem("todolist",JSON.stringify(todo)); 
+    window.localStorage.setItem("sequance",String(sequance+1))
     setTodoList(todo)
+    setSequance(sequance+1)
     refTodoItem.current.value = ''
   }
 
 
   const handleTodoCheck = (tf,idx) => {
     
-    let todo = JSON.parse(window.localStorage.getItem("todolist"));
-
-    if(tf){
-      todo[idx].tf = false
-    }else{
-      todo[idx].tf = true
-    } 
-
+    let todo = [...todoList]
+    
+    todo[idx].tf = !tf
+     
     window.localStorage.setItem("todolist",JSON.stringify(todo));  
     setTodoList(todo) 
   }
   
   const handleTodoDelete = (id) => {
-    let todo = JSON.parse(window.localStorage.getItem("todolist")); 
+    let todo = [...todoList] 
     todo = todo.filter((val) => val.id !== id);
     window.localStorage.setItem("todolist",JSON.stringify(todo));
     setTodoList(todo) 
