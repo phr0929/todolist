@@ -16,24 +16,13 @@ function App() {
       sequance = 0
     }
 
-    let sq = Number(sequance)
-
-
-    const handleSetInit = ()=>{   
-      let initList = 
-      `[
-        {"tf":${true},"id":${sq+1},"text":"To Do List"},
-        {"tf":${true},"id":${sq+2},"text":"오늘 할 일을 작성해 보세요."},
-        {"tf":${false},"id":${sq+3},"text":"제작 서산개백수"}
-       ]`
-      window.localStorage.setItem("todolist",initList)
-      return initList
+    const handleSetInit = ()=>{
+      window.localStorage.setItem("todolist","[]")
+      return "[]"
     }
-
     let todo = JSON.parse(window.localStorage.getItem("todolist")??handleSetInit());
-    
-    setSequance(sq)
     setTodoList(todo)
+    setSequance(Number(sequance))
  
   },[])
 
